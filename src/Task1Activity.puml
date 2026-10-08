@@ -1,37 +1,35 @@
 @startuml
 'https://plantuml.com/activity-diagram-beta
+title School Facility Rental - Activity
 
 |Renter|
 start
-:Choose facility;
--> Selects: date, time, event type;
+:Choose facility and date;
 
 |Website|
-while (Facility available?) is ([not available])
-:Tell renter;
-|Renter|
-if (Other date available?) then ([yes])
-:Choose different date/time;
-else ([stop])
-:End (Unavailable);
+:Check availability;
+if (available?) then (yes)
+:Create request;
+else (no)
+:Show not available;
 stop
 endif
-endwhile ([available])
+
 :Enter contact info;
 :Submit request;
 
 |School Staff|
-if (Review request) then ([approved])
+if (Review request) then (approved)
 |Payment Service|
 :Charge renter;
-if (Payment) then ([payment succeeds])
+if (Payment) then (payment succeeds)
 |Website|
 :Save booking;
 |Email Service|
 :Send confirmation email;
 :End (booking confirmed);
 stop
-else ([payment fails])
+else (payment fails)
 |Website|
 :Record payment failure;
 
@@ -40,7 +38,7 @@ else ([payment fails])
 :End (payment failed);
 stop
 endif
-else ([rejected])
+else (rejected)
 |Website|
 :Record rejection;
 |Email Service|
