@@ -19,9 +19,17 @@ endif
 :Submit request;
 
 |School Staff|
-if (Review request) then (approved)
+if (Review request) then (rejected)
+|Website|
+:Record rejection;
+|Email Service|
+:Email renter;
+:End (rejected);
+stop
+else (accepted)
 |Payment Service|
 :Charge renter;
+endif
 if (Payment) then (payment succeeds)
 |Website|
 :Save booking;
@@ -36,14 +44,6 @@ else (payment fails)
 |Email Service|
 :Email renter about payment failure;
 :End (payment failed);
-stop
-endif
-else (rejected)
-|Website|
-:Record rejection;
-|Email Service|
-:Email renter;
-:End (rejected);
 stop
 endif
 
